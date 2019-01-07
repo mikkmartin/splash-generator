@@ -1,12 +1,18 @@
 {
     "version": 2,
+    "alias": "splash-generator.now.sh",
     "builds": [
+        {"src": "gui/package.json", "use": "@now/static-build"},
         { "src": "screenshot/public/*", "use": "@now/static" },
         { "src": "screenshot/screenshot.js", "use": "@now/node", "config": { "maxLambdaSize": "40mb" } }
     ],
     "routes": [
-        { "src": "/", "dest": "/screenshot/public/index.html" },
+        { "src": "/screenshot/", "dest": "/screenshot/public/index.html" },
         { "src": "/favicon.ico", "dest": "/screenshot/public/favicon.ico" },
-        { "src": "/(.+)", "dest": "/screenshot/screenshot.js" }
+        { "src": "/screenshot/(.+)", "dest": "/screenshot/screenshot.js" },
+        {"src": "^/js/(.*)", "dest": "/gui/js/$1"},
+        {"src": "^/css/(.*)", "dest": "/gui/css/$1"},
+        {"src": "^/img/(.*)", "dest": "/gui/img/$1"},
+        {"src": ".*", "dest": "/gui/index.html" }
     ]
 }
