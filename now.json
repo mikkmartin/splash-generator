@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "alias": "splash-generator.now.sh",
+    "alias": "splash-generator.mikkmartin.co",
     "builds": [
         {"src": "gui/package.json", "use": "@now/static-build"},
         { "src": "screenshot/public/*", "use": "@now/static" },

@@ -5,9 +5,9 @@
       <div class="editor-content">
         <div class="padding">
           <h1>MyDrive splash screen generator</h1>
-          <select>
-            <option value="harmonics">MyDrive Harmonics</option>
-            <option value="connect" disabled>MyDrive Connect</option>
+          <select v-model="sourceUrl">
+            <option value="s.codepen.io/skorpa/debug/QzxQJp">MyDrive Harmonics</option>
+            <option value="s.codepen.io/skorpa/debug/XojedQ">MyDrive Connect</option>
           </select>
           <br/>
           <br/>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <iframe :style="{width: picked.width+'px', height: picked.height+'px'}" src="https://s.codepen.io/skorpa/debug/XojedQ/GnAnbNGPXypA"></iframe>
+    <iframe :style="{width: picked.width+'px', height: picked.height+'px'}" :src="'https://'+sourceUrl"></iframe>
   </div>
 </template>
 
@@ -38,6 +38,7 @@
 export default {
   name: 'HelloWorld',
   data: () => ({
+    sourceUrl: 's.codepen.io/skorpa/debug/QzxQJp',
     postUrl: process.env.NODE_ENV === 'development' ?
       `https://splash-generator.now.sh/screenshot/` :
       '/screenshot/',
@@ -85,7 +86,10 @@ export default {
     ]
   }),
   computed: {
-    finalUrl: vm => `${vm.postUrl}s.codepen.io/skorpa/debug/XojedQ/GnAnbNGPXypA?width=${vm.picked.width}&height=${vm.picked.height}&deviceScaleFactor=${vm.picked.scale}`
+    finalUrl: vm => `${vm.postUrl + vm.sourceUrl}?width=${vm.picked.width}&height=${vm.picked.height}&deviceScaleFactor=${vm.picked.scale}`
+  },
+  mounted () {
+    console.log('mounted')
   },
   methods: {
     isSelected (item) {
