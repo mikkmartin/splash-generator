@@ -6,8 +6,8 @@
         <div class="padding">
           <h1>MyDrive splash screen generator</h1>
           <select v-model="sourceUrl">
-            <option value="s.codepen.io/skorpa/debug/QzxQJp">MyDrive Harmonics</option>
-            <option value="s.codepen.io/skorpa/debug/XojedQ">MyDrive Connect</option>
+            <option value="s.codepen.io/skorpa/debug/XojedQ">MyDrive Harmonics</option>
+            <option value="s.codepen.io/skorpa/debug/QzxQJp">MyDrive Connect</option>
           </select>
           <br/>
           <br/>
@@ -38,11 +38,11 @@
 export default {
   name: 'HelloWorld',
   data: () => ({
-    sourceUrl: 's.codepen.io/skorpa/debug/QzxQJp',
+    sourceUrl: 's.codepen.io/skorpa/debug/XojedQ',
     postUrl: process.env.NODE_ENV === 'development' ?
       `https://splash-generator.now.sh/screenshot/` :
       '/screenshot/',
-    picked: {width: 375, height: 667, scale: 2},
+    picked: {width: 320, height: 568, scale: 2},
     items: [
       {width: 320, height: 568, scale: 2}, //iPhone SE
       {width: 568, height: 320, scale: 2},
@@ -89,7 +89,7 @@ export default {
     finalUrl: vm => `${vm.postUrl + vm.sourceUrl}?width=${vm.picked.width}&height=${vm.picked.height}&deviceScaleFactor=${vm.picked.scale}`
   },
   mounted () {
-    console.log('mounted')
+    console.log(this.$route)
   },
   methods: {
     isSelected (item) {
