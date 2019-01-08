@@ -5,9 +5,9 @@
       <div class="editor-content">
         <div class="padding">
           <h1>MyDrive splash screen generator</h1>
-          <select v-model="sourceUrl">
-            <option value="s.codepen.io/skorpa/debug/XojedQ">MyDrive Harmonics</option>
-            <option value="s.codepen.io/skorpa/debug/QzxQJp">MyDrive Connect</option>
+          <select @change="projectChange">
+            <option value="harmonics">MyDrive Harmonics</option>
+            <option value="connect">MyDrive Connect</option>
           </select>
           <br/>
           <br/>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <iframe :style="{width: picked.width+'px', height: picked.height+'px'}" :src="'https://'+sourceUrl"></iframe>
+    <iframe :style="{width: picked.width+'px', height: picked.height+'px'}" :src="'https://'+selectedProject.sourceUrl"></iframe>
   </div>
 </template>
 
@@ -38,10 +38,14 @@
 export default {
   name: 'HelloWorld',
   data: () => ({
-    sourceUrl: 's.codepen.io/skorpa/debug/XojedQ',
     postUrl: process.env.NODE_ENV === 'development' ?
       `https://splash-generator.now.sh/screenshot/` :
       '/screenshot/',
+    selectedProject: {},
+    projects: [
+      {name: 'harmonics', sourceUrl: 's.codepen.io/skorpa/debug/XojedQ'},
+      {name: 'connect', sourceUrl: 's.codepen.io/skorpa/debug/QzxQJp'}
+    ],
     picked: {width: 320, height: 568, scale: 2},
     items: [
       {width: 320, height: 568, scale: 2}, //iPhone SE
@@ -86,14 +90,31 @@ export default {
     ]
   }),
   computed: {
-    finalUrl: vm => `${vm.postUrl + vm.sourceUrl}?width=${vm.picked.width}&height=${vm.picked.height}&deviceScaleFactor=${vm.picked.scale}`
+    finalUrl: vm => `${vm.postUrl + vm.selectedProject.sourceUrl}?width=${vm.picked.width}&height=${vm.picked.height}&deviceScaleFactor=${vm.picked.scale}`
   },
-  mounted () {
-    console.log(this.$route)
+  created () {
+    this.readParams()
   },
   methods: {
     isSelected (item) {
       return this.picked === item
+    },
+    readParams () {
+      if (this.$route.query.project) {
+        this.setProject(this.$route.query.project)
+      } else {
+        this.setProject(this.projects[0].name)
+      }
+    },
+    setProject (name) {
+      this.selectedProject = this.projects.find(project => project.name === name)
+    },
+    projectChange (ev) {
+      const selectedName = ev.srcElement.value
+      this.setProject(selectedName)
+      const query = Object.assign({}, this.$route.query)
+      query.project = selectedName
+      this.$router.replace({ query })
     }
   }
 }
