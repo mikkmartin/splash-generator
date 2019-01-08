@@ -6,8 +6,8 @@
         <div class="padding">
           <h1>MyDrive splash screen generator</h1>
           <select @change="projectChange">
-            <option value="harmonics">MyDrive Harmonics</option>
-            <option value="connect">MyDrive Connect</option>
+            <option value="harmonics" :selected="projectIsSelected('harmonics')">MyDrive Harmonics</option>
+            <option value="connect" :selected="projectIsSelected('connect')">MyDrive Connect</option>
           </select>
           <br/>
           <br/>
@@ -23,6 +23,14 @@
           </label>
           </div>
         </form>
+        <div class="new-resolution">
+          <input type="number" min="320" max="5000" v-model="newResolution.width"/>
+          x
+          <input type="number" min="320" max="5000" v-model="newResolution.height"/>
+          pt
+          <input type="number" v-model="newResolution.scale" min="1" max="4"/>
+          <button v-on:click="addResolution">Add</button>
+        </div>
         <br/>
         <div class="padding align-right">
           <button type="submit" disabled>Generate all</button>
@@ -87,7 +95,8 @@ export default {
 
       {width: 1280, height: 800, scale: 2}, //some mobile android device?
       {width: 800, height: 1280, scale: 2},
-    ]
+    ],
+    newResolution: {width: 800, height: 600, scale: 2}
   }),
   computed: {
     finalUrl: vm => `${vm.postUrl + vm.selectedProject.sourceUrl}?width=${vm.picked.width}&height=${vm.picked.height}&deviceScaleFactor=${vm.picked.scale}`
@@ -96,12 +105,19 @@ export default {
     this.readParams()
   },
   methods: {
+    addResolution () {
+      this.items.push(this.newResolution)
+    },
     isSelected (item) {
       return this.picked === item
+    },
+    projectIsSelected (name) {
+      return this.selectedProject.name === name
     },
     readParams () {
       if (this.$route.query.project) {
         this.setProject(this.$route.query.project)
+
       } else {
         this.setProject(this.projects[0].name)
       }
@@ -147,6 +163,7 @@ export default {
 }
 .padding.align-right button {
   margin-left: auto;
+  width: 100%;
 }
 input[type=radio] {
   flex: 0;
@@ -164,8 +181,18 @@ label {
 input[type=checkbox] {
   margin-left: 1rem;
 }
+.new-resolution {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+.new-resolution > input {
+  width: 50px;
+}
 button {
   margin-left: 2rem;
+  width: 60px;
 }
 button[disabled] {
   opacity: .5;
