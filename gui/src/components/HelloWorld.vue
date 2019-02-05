@@ -27,7 +27,7 @@
           <input type="number" min="320" max="5000" v-model="newResolution.width"/>
           x
           <input type="number" min="320" max="5000" v-model="newResolution.height"/>
-          pt
+          dip
           <input type="number" v-model="newResolution.scale" min="1" max="4"/>
           <button v-on:click="addResolution">Add</button>
         </div>
@@ -51,8 +51,8 @@ export default {
       '/screenshot/',
     selectedProject: {},
     projects: [
-      {name: 'harmonics', sourceUrl: 's.codepen.io/skorpa/debug/XojedQ'},
-      {name: 'connect', sourceUrl: 's.codepen.io/skorpa/debug/QzxQJp'}
+      {name: 'harmonics', sourceUrl: 's.codepen.io/skorpa/debug/509687fc64648afe98dd4bdc93ae377c'},
+      {name: 'connect', sourceUrl: 's.codepen.io/skorpa/debug/ce79d72b449a27224375791f504c17fc'}
     ],
     picked: {width: 320, height: 568, scale: 2},
     items: [
