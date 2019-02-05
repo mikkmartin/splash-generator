@@ -17,7 +17,7 @@
           <input v-if="item === picked" type="hidden" name="resolution" :value="item.width +'x'+ item.height +'@'+ item.scale + 'x'" />
           <input type="radio" :id="'o-'+i" name="res" :value="item" v-model="picked" />
           <label :for="'o-'+i">
-            <span class="label">{{item.width +' x '+ item.height}} pt</span>
+            <span class="label">{{item.width +' x '+ item.height}} dip</span>
             <label :for="'check-'+i">x{{item.scale}}</label>
             <button type="submit" :disabled="!isSelected(item)">Generate</button>
           </label>
