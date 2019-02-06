@@ -1,6 +1,6 @@
 const { parse } = require('url');
 const { getScreenshot } = require('./chromium');
-const { getInt, getUrlFromPath, isValidUrl } = require('./validator');
+const { getInt, getFloat, getUrlFromPath, isValidUrl } = require('./validator');
 
 module.exports = async function (req, res) {
     try {
@@ -9,7 +9,7 @@ module.exports = async function (req, res) {
         const url = getUrlFromPath(pathname);
         const w = getInt(width);
         const h = getInt(height);
-        const scale = getInt(deviceScaleFactor);
+        const scale = getFloat(deviceScaleFactor);
         if (!isValidUrl(url)) {
             res.statusCode = 400;
             res.setHeader('Content-Type', 'text/html');

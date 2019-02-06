@@ -1,5 +1,9 @@
 const { URL } = require('url');
 
+function getFloat(str) {
+    return /[0-9]+/.test(str) ? parseFloat(str) : undefined;
+}
+
 function getInt(str) {
     return /[0-9]+/.test(str) ? parseInt(str) : undefined;
 }
